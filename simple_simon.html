@@ -3,8 +3,159 @@
 <head>
     <meta charset="UTF-8">
     <title>Simple Simon</title>
-</head>
-<body>
 
+    <!--<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">-->
+
+    <style>
+
+        #gameContainer {
+            height:305px;
+            width: 305px;
+            background: linear-gradient(-90deg, cornflowerblue, darkslateblue);
+            margin-left: 25%;
+            border-radius: 50%;
+            border: solid grey 5px;
+            float: left;
+        }
+
+        #green_btn {
+            margin: 50px 0 0 50px;
+            border-left: 3px solid green;
+            border-top:  3px solid green;
+            border-right:  1px solid darkseagreen;
+            border-bottom:  1px solid darkseagreen;
+            background: linear-gradient(-90deg, lime, green);
+            float: left;
+            border-radius: 100% 0 0 0;
+        }
+
+        #red_btn{
+            margin: 50px 0 0 0;
+            border-right: 3px solid darkred;
+            border-top:  3px solid darkred;
+            border-left: 1px solid rosybrown;
+            border-bottom: 1px solid rosybrown;
+            background: linear-gradient(200deg, darkred, red);
+            float: left;
+            border-radius: 0 100% 0 0;
+
+        }
+
+        #blue_btn {
+            margin: 0 0 0 50px;
+            border-left: 3px solid darkblue;
+            border-bottom:  3px solid darkblue;
+            background: linear-gradient(80deg, darkblue, cornflowerblue);
+            background-color: blue;
+            float: left;
+            border-radius: 0 0 0 100%;
+        }
+
+        #yellow_btn {
+            border-right: 3px solid greenyellow;
+            border-bottom:  3px solid greenyellow;
+            background: linear-gradient(180deg, yellow, yellowgreen);
+            float: left;
+            border-radius: 0 0 100% 0;
+
+        }
+
+        #center_screen {
+            height: 10px;
+            width: 10px;
+            float: left;
+            position: relative;
+            border: 3px solid grey;
+            top: 146px;
+            right: 112px;
+            animation-name: spin;
+            animation-duration: 15s; /* 15 seconds */
+            animation-iteration-count: infinite;
+            animation-timing-function: linear;
+        }
+
+        #center_image{
+            height: 100px;
+            width: 80px;
+            border-radius: 50%;
+            position: relative;
+            top: 90px;
+        }
+
+        #showMeWYG {
+            width: 250px;
+            height: 25px;
+            background: #92B901;
+            color: black;
+            position: relative;
+            font-weight: bold;
+            font-size: 20px;
+            padding: 10px;
+            animation: showMe 5s 1;
+            -moz-animation: showMe 5s 1;
+            -webkit-animation: showMe 5s 1;
+            -o-animation: showMe 5s 1;
+            border-radius: 5px;
+            -webkit-border-radius: 5px;
+
+        }
+
+        .container {
+            float: left;
+            margin: 1% 0 0 28%;
+
+        }
+
+
+
+        .game_buttons {
+            height: 100px;
+            width: 100px;
+        }
+
+        .buttonActive {
+            opacity: .5;
+        }
+
+        /*CSS Animations*/
+
+        /* Make the centerscreen spin */
+        @keyframes spin {
+            from { transform: rotate(360deg); }
+            to { transform: rotate(0deg); }
+        }
+        /* Animate Text "show me what you got" */
+        @keyframes showMe {
+            0%   {background-color:red; left:0px; top:0px; transform: rotate(0deg);}
+            25%  {background-color:yellow; left:200px; top:0px; transform: rotate(20deg);}
+            50%  {background-color:blue; left:200px; top:-10px; transform: rotate(0deg);}
+            75%  {background-color:green; left:0px; top:-10px;transform: rotate(0deg);}
+            100% {background-color:red; left:0px; top:0px;transform: rotate(360deg);}
+        }
+
+    </style>
+
+</head>
+
+<body>
+    <main id="gameContainer">
+            <div class="game_buttons" id="green_btn"></div>
+            <div class="game_buttons" id="red_btn"></div>
+            <div class="" id="center_screen">
+                <img src="img/giant_head.png" id="center_image">
+            </div>
+            <div class="game_buttons" id="blue_btn"></div>
+            <div class="game_buttons" id="yellow_btn"></div>
+    </main>
+    <section class="container">
+        <div id="showMeWYG">Show Me What You Got!</div>
+    </section>
+
+
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"> </script>
+
+    <script>
+
+    </script>
 </body>
 </html>
