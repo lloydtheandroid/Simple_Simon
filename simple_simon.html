@@ -4,20 +4,51 @@
     <meta charset="UTF-8">
     <title>Simple Simon</title>
 
-    <!--<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">-->
+    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Indie+Flower|Bungee+Hairline|Orbitron|Poiret+One|Shadows+Into+Light|Yanone+Kaffeesatz">
 
     <style>
+
+        body {
+            font-family: 'Indie Flower', serif;
+        }
+        h1 {  font-family: "Bungee Hairline", serif;
+        }
+        h2 {
+            font-family: "Orbitron", serif;
+        }
+        h3 {
+            font-family: "Poiret One", serif;
+        }
+        h4 {
+            font-family: "Shadows Into Light" , serif;
+        }
+        h5 {
+            font-family: "Yanone Kaffeesatz", serif;
+        }
+        h1, h2, h3, h4, h5, h6 {
+            display: inline-block;
+            margin: 0;
+        }
+        input {
+            color: lime;
+            background: #000;
+            font-family: "Orbitron", serif;
+            text-align: center;
+            width: 40px;
+            height: 40px;
+            margin-left: 50px;
+            float: left;
+        }
 
         #gameContainer {
             height:305px;
             width: 305px;
-            background: linear-gradient(-90deg, cornflowerblue, darkslateblue);
-            margin-left: 25%;
+            background: radial-gradient(circle, pink, deeppink, seagreen);
+            margin-left: 5%;
             border-radius: 50%;
-            border: solid grey 5px;
+            border: solid aquamarine 5px;
             float: left;
         }
-
         #green_btn {
             margin: 50px 0 0 50px;
             border-left: 3px solid green;
@@ -25,10 +56,8 @@
             border-right:  1px solid darkseagreen;
             border-bottom:  1px solid darkseagreen;
             background: linear-gradient(-90deg, lime, green);
-            float: left;
             border-radius: 100% 0 0 0;
         }
-
         #red_btn{
             margin: 50px 0 0 0;
             border-right: 3px solid darkred;
@@ -36,89 +65,117 @@
             border-left: 1px solid rosybrown;
             border-bottom: 1px solid rosybrown;
             background: linear-gradient(200deg, darkred, red);
-            float: left;
             border-radius: 0 100% 0 0;
 
         }
-
         #blue_btn {
             margin: 0 0 0 50px;
             border-left: 3px solid darkblue;
             border-bottom:  3px solid darkblue;
+            border-right:  1px solid cornflowerblue;
+            border-top:  1px solid cornflowerblue;
             background: linear-gradient(80deg, darkblue, cornflowerblue);
             background-color: blue;
-            float: left;
             border-radius: 0 0 0 100%;
         }
-
         #yellow_btn {
             border-right: 3px solid greenyellow;
             border-bottom:  3px solid greenyellow;
+            border-left:  1px solid #ffee00;
+            border-top:  1px solid #ffee00;
             background: linear-gradient(180deg, yellow, yellowgreen);
-            float: left;
             border-radius: 0 0 100% 0;
 
         }
-
-        #center_screen {
+        #spinning_div {
             height: 10px;
             width: 10px;
             float: left;
             position: relative;
-            border: 3px solid grey;
-            top: 146px;
-            right: 112px;
+            border: 1px solid grey;
+            top: 148px;
+            right: 109px;
             animation-name: spin;
-            animation-duration: 15s; /* 15 seconds */
+            animation-duration: 25s; /* 15 seconds */
             animation-iteration-count: infinite;
             animation-timing-function: linear;
         }
-
-        #center_image{
+        #center_image {
             height: 100px;
             width: 80px;
             border-radius: 50%;
             position: relative;
-            top: 90px;
+            top: 80px;
         }
-
+        #center_text {
+            position: relative;
+            left: -14px;
+            top: -8px;
+        }
         #showMeWYG {
-            width: 250px;
+            width: 300px;
             height: 25px;
-            background: #92B901;
-            color: black;
+            background: lime;
+            color: white;
             position: relative;
             font-weight: bold;
             font-size: 20px;
-            padding: 10px;
+            text-align: center;
+            text-shadow: 2px 2px #000 ;
+            padding: 2px;
             animation: showMe 5s 1;
-            -moz-animation: showMe 5s 1;
-            -webkit-animation: showMe 5s 1;
-            -o-animation: showMe 5s 1;
             border-radius: 5px;
-            -webkit-border-radius: 5px;
-
+        }
+        #startButton {
+            width: 40px;
+            height: 40px;
+            margin: 5px 0 0 30px;
+            text-align: center;
+            vertical-align: middle;
+            line-height: 40px;
+            border: 4px solid limegreen;
+            border-radius: 50%;
+            background: linear-gradient(90deg, limegreen, lime);
+            float: left;
+            clear: left;
+        }
+        #resetButton {
+            width: 25px;
+            height: 25px;
+            margin: 15px 0 0 5px;
+            text-align: center;
+            font-size: x-small;
+            vertical-align: middle;
+            line-height: 25px;
+            border: 4px solid red;
+            border-radius: 50%;
+            background: linear-gradient(90deg, indianred, red);
+            float: left;
+        }
+        #rickSchwiftyDiv {
+            width: 100%;
+            height: 100%;
+            float: left;
+        }
+        #img_left {
+            width: 20%;
         }
 
         .container {
             float: left;
-            margin: 1% 0 0 28%;
-
+            margin: 3% 0 0 10%;
         }
-
-
-
         .game_buttons {
             height: 100px;
             width: 100px;
+            float: left;
         }
 
-        .buttonActive {
+        .buttonActive {  /* used for hover and blinking the buttons */
             opacity: .5;
         }
 
         /*CSS Animations*/
-
         /* Make the centerscreen spin */
         @keyframes spin {
             from { transform: rotate(360deg); }
@@ -126,11 +183,11 @@
         }
         /* Animate Text "show me what you got" */
         @keyframes showMe {
-            0%   {background-color:red; left:0px; top:0px; transform: rotate(0deg);}
-            25%  {background-color:yellow; left:200px; top:0px; transform: rotate(20deg);}
-            50%  {background-color:blue; left:200px; top:-10px; transform: rotate(0deg);}
-            75%  {background-color:green; left:0px; top:-10px;transform: rotate(0deg);}
-            100% {background-color:red; left:0px; top:0px;transform: rotate(360deg);}
+            0%   {background-color:black; left:0px; top:0px; transform: rotate(0deg); font-size: larger;}
+            25%  {background-color:blue; left:300px; top:-200px; transform: rotate(20deg); font-size: small;}
+            50%  {background-color:red; left:200px; top:-300px; transform: rotate(-20deg); font-size: smaller;}
+            75%  {background-color:yellow; left:100px; top:-200px;transform: rotate(0deg);}
+            100% {background-color:black; left:0px; top:0px;transform: rotate(360deg);}
         }
 
     </style>
@@ -138,24 +195,69 @@
 </head>
 
 <body>
+    <!--left side of the screen, where the schwifty happens-->
+    <div class="container" id="img_left">
+        <img src="img/getSchwifty_transparent.png" id="rickSchwiftyDiv">
+        <input type="text" placeholder="Round" id="displayRounds">
+        <div class="game_buttons" id="startButton">Start</div>
+        <div class="game_buttons" id="resetButton">Reset</div>
+    </div>
+
+    <!--middle screen where all the action happens-->
     <main id="gameContainer">
             <div class="game_buttons" id="green_btn"></div>
             <div class="game_buttons" id="red_btn"></div>
-            <div class="" id="center_screen">
+            <div class="" id="spinning_div">
+                <h6 id="center_text">schwifty</h6>
                 <img src="img/giant_head.png" id="center_image">
             </div>
             <div class="game_buttons" id="blue_btn"></div>
             <div class="game_buttons" id="yellow_btn"></div>
     </main>
+    
+    <!--bottom of the screen, show me what you got!-->
     <section class="container">
-        <div id="showMeWYG">Show Me What You Got!</div>
+        <div id="showMeWYG"><h1>Show</h1> <h2>Me</h2> What You Got!</div>
     </section>
 
 
-    <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"> </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script><script>
+    "use strict";
 
-    <script>
+    $(document).ready(function() {
+        var rounds = 0;
+        var score = 0;
 
-    </script>
+        //animate buttons on hover
+        $('.game_buttons').hover(function() {
+            $(this).toggleClass("buttonActive")
+                    .stop( true, true )
+        });
+
+        //What happens when you click the start button
+        //1. score turns to zero
+        //2. round turns to 1
+        //3.
+        $("#startButton").click(function () {
+            rounds+=1;
+            $("#displayRounds").val(rounds);
+
+        });
+
+        //What happens when you click the reset button
+        //1. score is cleared
+        //2. round is cleared
+        $("#resetButton").click(function () {
+            $("#displayRounds").val("");
+            score = 0;
+            rounds = 0;
+        })
+
+
+
+    });
+
+
+</script>
 </body>
 </html>
