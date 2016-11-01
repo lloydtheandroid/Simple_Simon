@@ -49,7 +49,7 @@
             border: solid aquamarine 5px;
             float: left;
         }
-        #green_btn {
+        #btnGre {
             margin: 50px 0 0 50px;
             border-left: 3px solid green;
             border-top:  3px solid green;
@@ -58,7 +58,7 @@
             background: linear-gradient(-90deg, lime, green);
             border-radius: 100% 0 0 0;
         }
-        #red_btn{
+        #btnRed{
             margin: 50px 0 0 0;
             border-right: 3px solid darkred;
             border-top:  3px solid darkred;
@@ -68,7 +68,7 @@
             border-radius: 0 100% 0 0;
 
         }
-        #blue_btn {
+        #btnBlu {
             margin: 0 0 0 50px;
             border-left: 3px solid darkblue;
             border-bottom:  3px solid darkblue;
@@ -78,7 +78,7 @@
             background-color: blue;
             border-radius: 0 0 0 100%;
         }
-        #yellow_btn {
+        #btnYel {
             border-right: 3px solid greenyellow;
             border-bottom:  3px solid greenyellow;
             border-left:  1px solid #ffee00;
@@ -87,12 +87,11 @@
             border-radius: 0 0 100% 0;
 
         }
-        #spinning_div {
+        #spinningDiv {
             height: 10px;
             width: 10px;
             float: left;
             position: relative;
-            border: 1px solid grey;
             top: 148px;
             right: 109px;
             animation-name: spin;
@@ -100,19 +99,19 @@
             animation-iteration-count: infinite;
             animation-timing-function: linear;
         }
-        #center_image {
+        #centerImage {
             height: 100px;
             width: 80px;
             border-radius: 50%;
             position: relative;
             top: 80px;
         }
-        #center_text {
+        #centerText {
             position: relative;
-            left: -14px;
+            left: -26px;
             top: -8px;
         }
-        #showMeWYG {
+        #showMeWhatYouGot {
             width: 300px;
             height: 25px;
             background: lime;
@@ -157,7 +156,7 @@
             height: 100%;
             float: left;
         }
-        #img_left {
+        #imgLeft {
             width: 20%;
         }
 
@@ -189,44 +188,62 @@
             75%  {background-color:yellow; left:100px; top:-200px;transform: rotate(0deg);}
             100% {background-color:black; left:0px; top:0px;transform: rotate(360deg);}
         }
-
     </style>
 
 </head>
 
 <body>
     <!--left side of the screen, where the schwifty happens-->
-    <div class="container" id="img_left">
+    <section class="container" id="imgLeft">
         <img src="img/getSchwifty_transparent.png" id="rickSchwiftyDiv">
         <input type="text" placeholder="Round" id="displayRounds">
         <div class="game_buttons" id="startButton">Start</div>
         <div class="game_buttons" id="resetButton">Reset</div>
-    </div>
+    </section>
 
     <!--middle screen where all the action happens-->
     <main id="gameContainer">
-            <div class="game_buttons" id="green_btn"></div>
-            <div class="game_buttons" id="red_btn"></div>
-            <div class="" id="spinning_div">
-                <h6 id="center_text">schwifty</h6>
-                <img src="img/giant_head.png" id="center_image">
+            <div class="game_buttons" id="btnGre"></div>
+            <div class="game_buttons" id="btnRed"></div>
+            <div class="" id="spinningDiv">
+                <h3 id="centerText">schwifty</h3>
+                <img src="img/giant_head.png" id="centerImage">
             </div>
-            <div class="game_buttons" id="blue_btn"></div>
-            <div class="game_buttons" id="yellow_btn"></div>
+            <div class="game_buttons" id="btnBlu"></div>
+            <div class="game_buttons" id="btnYel"></div>
     </main>
     
     <!--bottom of the screen, show me what you got!-->
     <section class="container">
-        <div id="showMeWYG"><h1>Show</h1> <h2>Me</h2> What You Got!</div>
+        <div id="showMeWhatYouGot"><h1>Show</h1> <h2>Me</h2> What You Got!</div>
     </section>
 
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script><script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+
+    <script>
     "use strict";
 
     $(document).ready(function() {
         var rounds = 0;
         var score = 0;
+        var userCombo = []; //This array stores the user combo
+        var lengthOfUserCombo = 0;
+        var schwityCombo = []; //This array stores the random combo
+        var lengthOfSchwiftyCombo = 0;
+        var userMatchesSchwifty = true; //If true, game continues
+        var flashColor;
+//        var
+
+        //Assigning color with number
+        function colorButton(id, color) {
+            this.id = id;
+            this.color = color;
+        }
+        var gre = new colorButton(1, "gre");
+        var red = new colorButton(2, "red");
+        var yel = new colorButton(3, "yel");
+        var blu = new colorButton(4, "blu");
 
         //animate buttons on hover
         $('.game_buttons').hover(function() {
@@ -237,27 +254,76 @@
         //What happens when you click the start button
         //1. score turns to zero
         //2. round turns to 1
-        //3.
+        //3. game starts
         $("#startButton").click(function () {
-            rounds+=1;
-            $("#displayRounds").val(rounds);
-
+            if (rounds == 0) {
+                rounds = 1;
+                $("#displayRounds").val(rounds);
+            }
+            else if (rounds >= 1) {
+                $("#displayRounds").val(rounds);
+                playSchwiftyCombo()
+            }
         });
+
+        //What happens when you get guess the right combo
+        //1. round is increased
+        //2. new number is added to schwiftyCombo
+        //3. Length of user/schwifty combo is increase by 1.
+
 
         //What happens when you click the reset button
         //1. score is cleared
         //2. round is cleared
+        //3. all combos/settings are reset to default
         $("#resetButton").click(function () {
             $("#displayRounds").val("");
             score = 0;
             rounds = 0;
-        })
+            userCombo = [];
+            lengthOfUserCombo = 0;
+            schwityCombo = [];
+            lengthOfSchwiftyCombo = 0;
+            userMatchesSchwifty = true
+        });
 
+        //What happens when the game is started and user clicks colored button:
 
+        $("div[id*='btn']").on("click", function() {
+            console.log("User combo id is " + userCombo.push(this.id.slice(3, 7)));
+            console.log("Length of user combo is " + lengthOfUserCombo++);
+            console.log("userCombo Array is " + userCombo)
+        });
 
+        function playSchwiftyCombo() {
+            $("#displayRounds").val(rounds);
+            flashColor = schwityCombo[lengthOfSchwiftyCombo];
+            $("btn" + flashColor).addClass("buttonActive");
+            schwityCombo++;
+            if (lengthOfSchwiftyCombo == schwityCombo.length) {
+                clearInterval(runMemory)
+            }
+        }
+
+        //Funtion used to guess next number/color in combo
+        function addNewColorToSchwifty() {
+            var temp = Math.floor((Math.random() * 4) + 1);
+            switch(temp) {
+                case 1:
+                    schwityCombo.push("Gre");
+                    break;
+                case 2:
+                    schwityCombo.push("Red");
+                    break;
+                case 3:
+                    schwityCombo.push("Yel");
+                    break;
+                case 4:
+                    schwityCombo.push("Blu");
+                    break;
+            }
+        }
     });
-
-
 </script>
 </body>
 </html>
