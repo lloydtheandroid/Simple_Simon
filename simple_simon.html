@@ -224,106 +224,183 @@
     <script>
     "use strict";
 
-    $(document).ready(function() {
-        var rounds = 0;
-        var score = 0;
-        var userCombo = []; //This array stores the user combo
-        var lengthOfUserCombo = 0;
-        var schwityCombo = []; //This array stores the random combo
-        var lengthOfSchwiftyCombo = 0;
-        var userMatchesSchwifty = true; //If true, game continues
-        var flashColor;
-//        var
-
-        //Assigning color with number
-        function colorButton(id, color) {
-            this.id = id;
-            this.color = color;
-        }
-        var gre = new colorButton(1, "gre");
-        var red = new colorButton(2, "red");
-        var yel = new colorButton(3, "yel");
-        var blu = new colorButton(4, "blu");
-
-        //animate buttons on hover
-        $('.game_buttons').hover(function() {
-            $(this).toggleClass("buttonActive")
-                    .stop( true, true )
-        });
-
-        //What happens when you click the start button
-        //1. score turns to zero
-        //2. round turns to 1
-        //3. game starts
-        $("#startButton").click(function () {
-            if (rounds == 0) {
-                rounds = 1;
-                $("#displayRounds").val(rounds);
-            }
-            else if (rounds >= 1) {
-                $("#displayRounds").val(rounds);
-                playSchwiftyCombo()
-            }
-        });
-
-        //What happens when you get guess the right combo
-        //1. round is increased
-        //2. new number is added to schwiftyCombo
-        //3. Length of user/schwifty combo is increase by 1.
+    var rounds = 0;
+    var score = 0;
+    var gameStarted = false;
+    var userCombo = []; //This array stores the user combo
+    var lengthOfUserCombo = 0;
+    var schwiftyCombo = []; //This array stores the random combo
+    var lengthOfSchwiftyCombo = 0;
+    var userMatchesSchwifty = true; //If true, game continues
+    var flashColor;
+    var runSchwiftyCombo;
+    var tempo;
 
 
-        //What happens when you click the reset button
-        //1. score is cleared
-        //2. round is cleared
-        //3. all combos/settings are reset to default
-        $("#resetButton").click(function () {
-            $("#displayRounds").val("");
-            score = 0;
-            rounds = 0;
-            userCombo = [];
-            lengthOfUserCombo = 0;
-            schwityCombo = [];
-            lengthOfSchwiftyCombo = 0;
-            userMatchesSchwifty = true
-        });
+//    //Assigning color with number
+//    function colorButton(id, color) {
+//        this.id = id;
+//        this.color = color;
+//    }
+//    var gre = new colorButton(1, "gre");
+//    var red = new colorButton(2, "red");
+//    var yel = new colorButton(3, "yel");
+//    var blu = new colorButton(4, "blu");
 
-        //What happens when the game is started and user clicks colored button:
+    //animate buttons on hover
+    $('.game_buttons').hover(function() {
+        $(this).toggleClass("buttonActive")
+                .stop( true, true )
+    });
 
-        $("div[id*='btn']").on("click", function() {
-            console.log("User combo id is " + userCombo.push(this.id.slice(3, 7)));
-            console.log("Length of user combo is " + lengthOfUserCombo++);
-            console.log("userCombo Array is " + userCombo)
-        });
-
-        function playSchwiftyCombo() {
+    //What happens when you click the start button
+    //1. score turns to zero
+    //2. round turns to 1
+    //3. game starts
+    $("#startButton").click(function () {
+        if (rounds >= 0) {
+            rounds = 1;
             $("#displayRounds").val(rounds);
-            flashColor = schwityCombo[lengthOfSchwiftyCombo];
-            $("btn" + flashColor).addClass("buttonActive");
-            schwityCombo++;
-            if (lengthOfSchwiftyCombo == schwityCombo.length) {
-                clearInterval(runMemory)
-            }
+            gameStarted = true;
+            addNewColorToSchwifty();
+            playSchwiftyCombo();
+            userMatchesSchwifty = true;
+            clearInterval(runSchwiftyCombo);
+            setTimeout(function() {runSchwiftyCombo = setInterval(playSchwiftyCombo, 1000);}, 1000);
         }
+    });
 
-        //Funtion used to guess next number/color in combo
-        function addNewColorToSchwifty() {
-            var temp = Math.floor((Math.random() * 4) + 1);
-            switch(temp) {
-                case 1:
-                    schwityCombo.push("Gre");
-                    break;
-                case 2:
-                    schwityCombo.push("Red");
-                    break;
-                case 3:
-                    schwityCombo.push("Yel");
-                    break;
-                case 4:
-                    schwityCombo.push("Blu");
-                    break;
+    //What happens when you click the reset button
+    $("#resetButton").click(function () {
+        console.log("function resetButton");
+        $("#displayRounds").val("");
+        score = 0;
+        rounds = 1;
+        userCombo = [];
+        schwiftyCombo = [];
+        lengthOfSchwiftyCombo = 0;
+        userMatchesSchwifty = true;
+        clearInterval(runSchwiftyCombo);
+        console.log(schwiftyCombo)
+    });
+
+    //What happens when the game is started and user clicks colored button:
+    $("div[id*='btn']").on("click", function() {
+        userCombo.push(this.id.slice(3, 7));
+        userMatchesSchwifty = true;
+        console.log(userCombo, schwiftyCombo);
+        for (var i = 0; i < userCombo.length; i++) {
+            if (schwiftyCombo[i] != userCombo[i]) {
+                userMatchesSchwifty = false;
+                $("#displayRounds").val("GAME OVER");
+                userCombo = [];
+                schwiftyCombo = [];
+                gameStarted = false;
+                break;
+            }
+            else {
+                if (userCombo.length == schwiftyCombo.length) {
+                    console.log("At UserMatchesSchwifty YAY ");
+                    if (rounds == 20) {
+                        win();
+                    } else {
+                        // next round
+                        userCombo = [];
+                        addNewColorToSchwifty();
+                        rounds++;
+
+                        switch(rounds) {
+                            case 1:
+                            case 2:
+                            case 3:
+                            case 4:
+                                tempo = 1000;
+                                break;
+                            case 5:
+                                tempo = 700;
+                                break;
+                            case 9:
+                                tempo = 500;
+                                break;
+                            case 13:
+                                tempo = 300;
+                                break;
+                        }
+                        setTimeout(function() {
+                            runSchwiftyCombo = setInterval(playSchwiftyCombo, tempo);
+                        }, 1000);
+                    }
+                }
             }
         }
     });
-</script>
+
+    //Function used to guess next number/color in combo
+    //Randomly selects a number for each level count and
+    //Adds it to the schwiftyCombo.  Numbers correspond to
+    //colors depending on the color's object.id
+    function addNewColorToSchwifty() {
+        console.log("Function addNewColorToSchwifty");
+        var temp = Math.floor((Math.random() * 4) + 1);
+        switch(temp) {
+            case 1:
+                schwiftyCombo.push("Gre");
+                break;
+            case 2:
+                schwiftyCombo.push("Red");
+                break;
+            case 3:
+                schwiftyCombo.push("Yel");
+                break;
+            case 4:
+                schwiftyCombo.push("Blu");
+                break;
+        }
+        //lengthOfSchwiftyCombo++;
+        console.log(schwiftyCombo);
+    }
+
+    function playSchwiftyCombo() {
+        //console.log("function playschwiftyCombo");
+        $("#displayRounds").val(rounds);
+        flashColor = schwiftyCombo[lengthOfSchwiftyCombo - 1];
+        $("btn" + flashColor).addClass("buttonActive");
+        setTimeout(function() {$("#btn" + flashColor).removeClass("activated");}, 250);
+        if (lengthOfSchwiftyCombo == schwiftyCombo.length) {
+            clearInterval(runSchwiftyCombo);
+            console.log("bottom of function playSchwiftyCombo")
+        }
+    }
+    function win() {
+        console.log("playing win")
+        $("#displayRounds").val("WIN");
+        $("#buttonGre").addClass("buttonActive");
+        setTimeout(function() {$("#btnBlu").removeClass("buttonActive");}, 250);
+        setTimeout(function() {$("#btnBlu").addClass("buttonActive");}, 250);
+        setTimeout(function() {$("#btnBlu").removeClass("buttonActive");}, 500);
+        setTimeout(function() {$("#btnBlu").addClass("buttonActive");}, 500);
+        setTimeout(function() {$("#btnBlu").removeClass("buttonActive");}, 750);
+        setTimeout(function() {$("#btnBlu").addClass("buttonActive");}, 750);
+        setTimeout(function() {$("#btnBlu").removeClass("buttonActive");}, 1000);
+
+        setTimeout(function() {$("#btnBlu").addClass("buttonActive");}, 1250);
+        setTimeout(function() {$("#btnBlu").addClass("buttonActive");}, 1250);
+        setTimeout(function() {$("#btnBlu").addClass("buttonActive");}, 1250);
+        setTimeout(function() {$("#btnBlu").addClass("buttonActive");}, 1250);
+        setTimeout(function() {$("#btnBlu").removeClass("buttonActive");}, 1500);
+        setTimeout(function() {$("#btnBlu").removeClass("buttonActive");}, 1500);
+        setTimeout(function() {$("#btnBlu").removeClass("buttonActive");}, 1500);
+        setTimeout(function() {$("#btnBlu").removeClass("buttonActive");}, 1500);
+
+        setTimeout(function() {$("#btnBlu").addClass("buttonActive");}, 1750);
+        setTimeout(function() {$("#btnBlu").addClass("buttonActive");}, 1750);
+        setTimeout(function() {$("#btnBlu").addClass("buttonActive");}, 1750);
+        setTimeout(function() {$("#btnBlu").addClass("buttonActive");}, 1750);
+        setTimeout(function() {$("#btnBlu").removeClass("buttonActive");}, 2000);
+        setTimeout(function() {$("#btnBlu").removeClass("buttonActive");}, 2000);
+        setTimeout(function() {$("#btnBlu").removeClass("buttonActive");}, 2000);
+        setTimeout(function() {$("#btnBlu").removeClass("buttonActive");}, 2000);
+    }
+    </script>
 </body>
 </html>
