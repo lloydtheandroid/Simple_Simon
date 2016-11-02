@@ -223,29 +223,14 @@
 
     <script>
     "use strict";
-
     var rounds = 0;
     var score = 0;
     var gameStarted = false;
     var userCombo = []; //This array stores the user combo
-    var lengthOfUserCombo = 0;
     var schwiftyCombo = []; //This array stores the random combo
-    var lengthOfSchwiftyCombo = 0;
     var userMatchesSchwifty = true; //If true, game continues
-    var flashColor;
     var runSchwiftyCombo;
     var tempo;
-
-
-//    //Assigning color with number
-//    function colorButton(id, color) {
-//        this.id = id;
-//        this.color = color;
-//    }
-//    var gre = new colorButton(1, "gre");
-//    var red = new colorButton(2, "red");
-//    var yel = new colorButton(3, "yel");
-//    var blu = new colorButton(4, "blu");
 
     //animate buttons on hover
     $('.game_buttons').hover(function() {
@@ -253,20 +238,17 @@
                 .stop( true, true )
     });
 
-    //What happens when you click the start button
-    //1. score turns to zero
-    //2. round turns to 1
-    //3. game starts
+    //Start button
     $("#startButton").click(function () {
         if (rounds >= 0) {
             rounds = 1;
             $("#displayRounds").val(rounds);
             gameStarted = true;
             addNewColorToSchwifty();
-            playSchwiftyCombo();
+            console.log(schwiftyCombo);
             userMatchesSchwifty = true;
-            clearInterval(runSchwiftyCombo);
-            setTimeout(function() {runSchwiftyCombo = setInterval(playSchwiftyCombo, 1000);}, 1000);
+//            clearInterval(runSchwiftyCombo);
+            playSchwiftyCombo();
         }
     });
 
@@ -278,13 +260,11 @@
         rounds = 1;
         userCombo = [];
         schwiftyCombo = [];
-        lengthOfSchwiftyCombo = 0;
-        userMatchesSchwifty = true;
         clearInterval(runSchwiftyCombo);
         console.log(schwiftyCombo)
     });
 
-    //What happens when the game is started and user clicks colored button:
+    //What happens when the game is started and user clicks color button:
     $("div[id*='btn']").on("click", function() {
         userCombo.push(this.id.slice(3, 7));
         userMatchesSchwifty = true;
@@ -298,10 +278,10 @@
                 gameStarted = false;
                 break;
             }
-            else {
+            else { //If user guesses correctly
                 if (userCombo.length == schwiftyCombo.length) {
                     console.log("At UserMatchesSchwifty YAY ");
-                    if (rounds == 20) {
+                    if (rounds == 2) {
                         win();
                     } else {
                         // next round
@@ -326,19 +306,13 @@
                                 tempo = 300;
                                 break;
                         }
-                        setTimeout(function() {
-                            runSchwiftyCombo = setInterval(playSchwiftyCombo, tempo);
-                        }, 1000);
+                        playSchwiftyCombo();
                     }
                 }
             }
         }
     });
-
-    //Function used to guess next number/color in combo
-    //Randomly selects a number for each level count and
-    //Adds it to the schwiftyCombo.  Numbers correspond to
-    //colors depending on the color's object.id
+    //Random number generator, adds color to getschwifty array
     function addNewColorToSchwifty() {
         console.log("Function addNewColorToSchwifty");
         var temp = Math.floor((Math.random() * 4) + 1);
@@ -356,23 +330,22 @@
                 schwiftyCombo.push("Blu");
                 break;
         }
-        //lengthOfSchwiftyCombo++;
         console.log(schwiftyCombo);
     }
 
     function playSchwiftyCombo() {
-        //console.log("function playschwiftyCombo");
         $("#displayRounds").val(rounds);
-        flashColor = schwiftyCombo[lengthOfSchwiftyCombo - 1];
-        $("btn" + flashColor).addClass("buttonActive");
-        setTimeout(function() {$("#btn" + flashColor).removeClass("activated");}, 250);
-        if (lengthOfSchwiftyCombo == schwiftyCombo.length) {
-            clearInterval(runSchwiftyCombo);
-            console.log("bottom of function playSchwiftyCombo")
-        }
+        var i = 0;
+        var intervalID = setInterval(function () {
+            $("#btn" + schwiftyCombo[i]).animate({"opacity": ".5"}, 250).animate({"opacity": "1"}, 1000);
+            i++;
+            if (i == schwiftyCombo.length) {
+                clearInterval(intervalID);
+            }
+        }, 1000);
     }
     function win() {
-        console.log("playing win")
+        console.log("playing win");
         $("#displayRounds").val("WIN");
         $("#buttonGre").addClass("buttonActive");
         setTimeout(function() {$("#btnBlu").removeClass("buttonActive");}, 250);
