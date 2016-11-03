@@ -5,192 +5,20 @@
     <title>Simple Simon</title>
 
     <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Indie+Flower|Bungee+Hairline|Orbitron|Poiret+One|Shadows+Into+Light|Yanone+Kaffeesatz">
-
-    <style>
-
-        body {
-            font-family: 'Indie Flower', serif;
-        }
-        h1 {  font-family: "Bungee Hairline", serif;
-        }
-        h2 {
-            font-family: "Orbitron", serif;
-        }
-        h3 {
-            font-family: "Poiret One", serif;
-        }
-        h4 {
-            font-family: "Shadows Into Light" , serif;
-        }
-        h5 {
-            font-family: "Yanone Kaffeesatz", serif;
-        }
-        h1, h2, h3, h4, h5, h6 {
-            display: inline-block;
-            margin: 0;
-        }
-        input {
-            color: lime;
-            background: #000;
-            font-family: "Orbitron", serif;
-            text-align: center;
-            width: 40px;
-            height: 40px;
-            margin-left: 50px;
-            float: left;
-        }
-
-        #gameContainer {
-            height:305px;
-            width: 305px;
-            background: radial-gradient(circle, pink, deeppink, seagreen);
-            margin-left: 5%;
-            border-radius: 50%;
-            border: solid aquamarine 5px;
-            float: left;
-        }
-        #btnGre {
-            margin: 50px 0 0 50px;
-            border-left: 3px solid green;
-            border-top:  3px solid green;
-            border-right:  1px solid darkseagreen;
-            border-bottom:  1px solid darkseagreen;
-            background: linear-gradient(-90deg, lime, green);
-            border-radius: 100% 0 0 0;
-        }
-        #btnRed{
-            margin: 50px 0 0 0;
-            border-right: 3px solid darkred;
-            border-top:  3px solid darkred;
-            border-left: 1px solid rosybrown;
-            border-bottom: 1px solid rosybrown;
-            background: linear-gradient(200deg, darkred, red);
-            border-radius: 0 100% 0 0;
-
-        }
-        #btnBlu {
-            margin: 0 0 0 50px;
-            border-left: 3px solid darkblue;
-            border-bottom:  3px solid darkblue;
-            border-right:  1px solid cornflowerblue;
-            border-top:  1px solid cornflowerblue;
-            background: linear-gradient(80deg, darkblue, cornflowerblue);
-            background-color: blue;
-            border-radius: 0 0 0 100%;
-        }
-        #btnYel {
-            border-right: 3px solid greenyellow;
-            border-bottom:  3px solid greenyellow;
-            border-left:  1px solid #ffee00;
-            border-top:  1px solid #ffee00;
-            background: linear-gradient(180deg, yellow, yellowgreen);
-            border-radius: 0 0 100% 0;
-
-        }
-        #spinningDiv {
-            height: 10px;
-            width: 10px;
-            float: left;
-            position: relative;
-            top: 148px;
-            right: 109px;
-            animation-name: spin;
-            animation-duration: 25s; /* 15 seconds */
-            animation-iteration-count: infinite;
-            animation-timing-function: linear;
-        }
-        #centerImage {
-            height: 100px;
-            width: 80px;
-            border-radius: 50%;
-            position: relative;
-            top: 80px;
-        }
-        #centerText {
-            position: relative;
-            left: -26px;
-            top: -8px;
-        }
-        #showMeWhatYouGot {
-            width: 300px;
-            height: 25px;
-            background: lime;
-            color: white;
-            position: relative;
-            font-weight: bold;
-            font-size: 20px;
-            text-align: center;
-            text-shadow: 2px 2px #000 ;
-            padding: 2px;
-            animation: showMe 5s 1;
-            border-radius: 5px;
-        }
-        #startButton {
-            width: 40px;
-            height: 40px;
-            margin: 5px 0 0 30px;
-            text-align: center;
-            vertical-align: middle;
-            line-height: 40px;
-            border: 4px solid limegreen;
-            border-radius: 50%;
-            background: linear-gradient(90deg, limegreen, lime);
-            float: left;
-            clear: left;
-        }
-        #resetButton {
-            width: 25px;
-            height: 25px;
-            margin: 15px 0 0 5px;
-            text-align: center;
-            font-size: x-small;
-            vertical-align: middle;
-            line-height: 25px;
-            border: 4px solid red;
-            border-radius: 50%;
-            background: linear-gradient(90deg, indianred, red);
-            float: left;
-        }
-        #rickSchwiftyDiv {
-            width: 100%;
-            height: 100%;
-            float: left;
-        }
-        #imgLeft {
-            width: 20%;
-        }
-
-        .container {
-            float: left;
-            margin: 3% 0 0 10%;
-        }
-        .game_buttons {
-            height: 100px;
-            width: 100px;
-            float: left;
-        }
-
-        .buttonActive {  /* used for hover and blinking the buttons */
-            opacity: .5;
-        }
-
-        /*CSS Animations*/
-        /* Make the centerscreen spin */
-        @keyframes spin {
-            from { transform: rotate(360deg); }
-            to { transform: rotate(0deg); }
-        }
-        /* Animate Text "show me what you got" */
-        @keyframes showMe {
-            0%   {background-color:black; left:0px; top:0px; transform: rotate(0deg); font-size: larger;}
-            25%  {background-color:blue; left:300px; top:-200px; transform: rotate(20deg); font-size: small;}
-            50%  {background-color:red; left:200px; top:-300px; transform: rotate(-20deg); font-size: smaller;}
-            75%  {background-color:yellow; left:100px; top:-200px;transform: rotate(0deg);}
-            100% {background-color:black; left:0px; top:0px;transform: rotate(360deg);}
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="css/simple_simon.css">
 
 </head>
+
+<!--audio files for game-->
+<audio autoplay>
+    <source src="Audio/Show_me_what_you_got.wav" type="audio/wav" />
+</audio>
+<audio>
+    <source src="Audio/blue.wav" type="audio/wav">
+    <source src="Audio/green.wav" type="audio/wav">
+    <source src="Audio/red.wav" type="audio/wav">
+    <source src="Audio/yellow.wav" type="audio/wav">
+</audio>
 
 <body>
     <!--left side of the screen, where the schwifty happens-->
@@ -218,8 +46,9 @@
         <div id="showMeWhatYouGot"><h1>Show</h1> <h2>Me</h2> What You Got!</div>
     </section>
 
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"
+            integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+            crossorigin="anonymous"></script>
 
     <script>
     "use strict";
@@ -234,8 +63,9 @@
 
     //animate buttons on hover
     $('.game_buttons').hover(function() {
-        $(this).toggleClass("buttonActive")
-                .stop( true, true )
+        $(this).animate({"opacity": ".5"}, 25);
+    }, function() {
+        $(this).animate({"opacity": "1"}, 25);
     });
 
     //Start button
@@ -243,11 +73,11 @@
         if (rounds >= 0) {
             rounds = 1;
             $("#displayRounds").val(rounds);
+            $("body").addClass("backgroundImage");
             gameStarted = true;
             addNewColorToSchwifty();
             console.log(schwiftyCombo);
             userMatchesSchwifty = true;
-//            clearInterval(runSchwiftyCombo);
             playSchwiftyCombo();
         }
     });
@@ -256,19 +86,18 @@
     $("#resetButton").click(function () {
         console.log("function resetButton");
         $("#displayRounds").val("");
+        $("body").removeClass("backgroundImage");
         score = 0;
         rounds = 1;
         userCombo = [];
         schwiftyCombo = [];
         clearInterval(runSchwiftyCombo);
-        console.log(schwiftyCombo)
     });
 
     //What happens when the game is started and user clicks color button:
     $("div[id*='btn']").on("click", function() {
         userCombo.push(this.id.slice(3, 7));
         userMatchesSchwifty = true;
-        console.log(userCombo, schwiftyCombo);
         for (var i = 0; i < userCombo.length; i++) {
             if (schwiftyCombo[i] != userCombo[i]) {
                 userMatchesSchwifty = false;
@@ -278,17 +107,16 @@
                 gameStarted = false;
                 break;
             }
-            else { //If user guesses correctly
+            else {
+                //If user guesses correctly
                 if (userCombo.length == schwiftyCombo.length) {
-                    console.log("At UserMatchesSchwifty YAY ");
-                    if (rounds == 2) {
+                    if (rounds == 5) {
                         win();
                     } else {
                         // next round
                         userCombo = [];
                         addNewColorToSchwifty();
                         rounds++;
-
                         switch(rounds) {
                             case 1:
                             case 2:
@@ -314,7 +142,6 @@
     });
     //Random number generator, adds color to getschwifty array
     function addNewColorToSchwifty() {
-        console.log("Function addNewColorToSchwifty");
         var temp = Math.floor((Math.random() * 4) + 1);
         switch(temp) {
             case 1:
@@ -339,41 +166,12 @@
         var intervalID = setInterval(function () {
             $("#btn" + schwiftyCombo[i]).animate({"opacity": ".5"}, 250).animate({"opacity": "1"}, 1000);
             i++;
-            if (i == schwiftyCombo.length) {
-                clearInterval(intervalID);
-            }
-        }, 1000);
+            if (i == schwiftyCombo.length) {clearInterval(intervalID);}}, 1000);
     }
     function win() {
-        console.log("playing win");
-        $("#displayRounds").val("WIN");
-        $("#buttonGre").addClass("buttonActive");
-        setTimeout(function() {$("#btnBlu").removeClass("buttonActive");}, 250);
-        setTimeout(function() {$("#btnBlu").addClass("buttonActive");}, 250);
-        setTimeout(function() {$("#btnBlu").removeClass("buttonActive");}, 500);
-        setTimeout(function() {$("#btnBlu").addClass("buttonActive");}, 500);
-        setTimeout(function() {$("#btnBlu").removeClass("buttonActive");}, 750);
-        setTimeout(function() {$("#btnBlu").addClass("buttonActive");}, 750);
-        setTimeout(function() {$("#btnBlu").removeClass("buttonActive");}, 1000);
-
-        setTimeout(function() {$("#btnBlu").addClass("buttonActive");}, 1250);
-        setTimeout(function() {$("#btnBlu").addClass("buttonActive");}, 1250);
-        setTimeout(function() {$("#btnBlu").addClass("buttonActive");}, 1250);
-        setTimeout(function() {$("#btnBlu").addClass("buttonActive");}, 1250);
-        setTimeout(function() {$("#btnBlu").removeClass("buttonActive");}, 1500);
-        setTimeout(function() {$("#btnBlu").removeClass("buttonActive");}, 1500);
-        setTimeout(function() {$("#btnBlu").removeClass("buttonActive");}, 1500);
-        setTimeout(function() {$("#btnBlu").removeClass("buttonActive");}, 1500);
-
-        setTimeout(function() {$("#btnBlu").addClass("buttonActive");}, 1750);
-        setTimeout(function() {$("#btnBlu").addClass("buttonActive");}, 1750);
-        setTimeout(function() {$("#btnBlu").addClass("buttonActive");}, 1750);
-        setTimeout(function() {$("#btnBlu").addClass("buttonActive");}, 1750);
-        setTimeout(function() {$("#btnBlu").removeClass("buttonActive");}, 2000);
-        setTimeout(function() {$("#btnBlu").removeClass("buttonActive");}, 2000);
-        setTimeout(function() {$("#btnBlu").removeClass("buttonActive");}, 2000);
-        setTimeout(function() {$("#btnBlu").removeClass("buttonActive");}, 2000);
+        $("#centerText").text("WINNER!");
     }
+
     </script>
 </body>
 </html>
