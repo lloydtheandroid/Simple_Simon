@@ -10,15 +10,12 @@
 </head>
 
 <!--audio files for game-->
-<audio autoplay>
-    <source src="Audio/Show_me_what_you_got.wav" type="audio/wav" />
-</audio>
-<audio>
-    <source src="Audio/blue.wav" type="audio/wav">
-    <source src="Audio/green.wav" type="audio/wav">
-    <source src="Audio/red.wav" type="audio/wav">
-    <source src="Audio/yellow.wav" type="audio/wav">
-</audio>
+<audio id="showMeAudio" src="Audio/Show_me_what_you_got.wav" autoplay></audio>
+<audio id="btnBluSound" src="Audio/blue.wav"></audio>
+<audio id="btnGreSound" src="Audio/green.wav"></audio>
+<audio id="btnRedSound" src="Audio/red.wav"></audio>
+<audio id="btnYelSound" src="Audio/yellow.wav"></audio>
+
 
 <body>
     <!--left side of the screen, where the schwifty happens-->
@@ -58,7 +55,6 @@
     var userCombo = []; //This array stores the user combo
     var schwiftyCombo = []; //This array stores the random combo
     var userMatchesSchwifty = true; //If true, game continues
-    var runSchwiftyCombo;
     var tempo;
 
     //animate buttons on hover
@@ -71,12 +67,14 @@
     //Start button
     $("#startButton").click(function () {
         if (rounds >= 0) {
+            score = 0;
             rounds = 1;
+            userCombo = [];
+            schwiftyCombo = [];
             $("#displayRounds").val(rounds);
             $("body").addClass("backgroundImage");
             gameStarted = true;
             addNewColorToSchwifty();
-            console.log(schwiftyCombo);
             userMatchesSchwifty = true;
             playSchwiftyCombo();
         }
@@ -84,19 +82,18 @@
 
     //What happens when you click the reset button
     $("#resetButton").click(function () {
-        console.log("function resetButton");
         $("#displayRounds").val("");
         $("body").removeClass("backgroundImage");
         score = 0;
         rounds = 1;
         userCombo = [];
         schwiftyCombo = [];
-        clearInterval(runSchwiftyCombo);
     });
 
     //What happens when the game is started and user clicks color button:
     $("div[id*='btn']").on("click", function() {
         userCombo.push(this.id.slice(3, 7));
+        $("#btn" + (this.id.slice(3, 7)) + "Sound").get(0).play();
         userMatchesSchwifty = true;
         for (var i = 0; i < userCombo.length; i++) {
             if (schwiftyCombo[i] != userCombo[i]) {
@@ -165,6 +162,7 @@
         var i = 0;
         var intervalID = setInterval(function () {
             $("#btn" + schwiftyCombo[i]).animate({"opacity": ".5"}, 250).animate({"opacity": "1"}, 1000);
+            $("#btn" + schwiftyCombo[i] + "Sound").get(0).play();
             i++;
             if (i == schwiftyCombo.length) {clearInterval(intervalID);}}, 1000);
     }
