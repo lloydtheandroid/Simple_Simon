@@ -98,7 +98,7 @@
         for (var i = 0; i < userCombo.length; i++) {
             if (schwiftyCombo[i] != userCombo[i]) {
                 userMatchesSchwifty = false;
-                $("#displayRounds").val("GAME OVER");
+                lose();
                 userCombo = [];
                 schwiftyCombo = [];
                 gameStarted = false;
@@ -168,6 +168,10 @@
     }
     function win() {
         $("#centerText").text("WINNER!");
+    }
+    function lose(){
+        $("#centerText").text("!!!LOSER!!!");
+        $("#displayRounds").val("!!!");
     }
 
     </script>
