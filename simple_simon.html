@@ -8,34 +8,33 @@
     <link rel="stylesheet" type="text/css" href="css/simple_simon.css">
 
 </head>
-
-<!--audio files for game-->
-<audio id="showMeAudio" src="Audio/Show_me_what_you_got.wav" autoplay></audio>
-<audio id="btnBluSound" src="Audio/blue.wav"></audio>
-<audio id="btnGreSound" src="Audio/green.wav"></audio>
-<audio id="btnRedSound" src="Audio/red.wav"></audio>
-<audio id="btnYelSound" src="Audio/yellow.wav"></audio>
-
-
 <body>
+
+    <!--audio files for game-->
+    <audio id="showMeAudio" src="Audio/Show_me_what_you_got.wav" autoplay></audio>
+    <audio id="blueSound" src="Audio/blue.wav"></audio>
+    <audio id="greenSound" src="Audio/green.wav"></audio>
+    <audio id="redSound" src="Audio/red.wav"></audio>
+    <audio id="yellowSound" src="Audio/yellow.wav"></audio>
+
     <!--left side of the screen, where the schwifty happens-->
     <section class="container" id="imgLeft">
         <img src="img/getSchwifty_transparent.png" id="rickSchwiftyDiv">
         <input type="text" placeholder="Round" id="displayRounds">
-        <div class="game_buttons" id="startButton">Start</div>
-        <div class="game_buttons" id="resetButton">Reset</div>
+        <div id="startButton">Start</div>
+        <div id="resetButton">Reset</div>
     </section>
 
     <!--middle screen where all the action happens-->
     <main id="gameContainer">
-            <div class="game_buttons" id="btnGre"></div>
-            <div class="game_buttons" id="btnRed"></div>
+            <div class="game_buttons" id="green"></div>
+            <div class="game_buttons" id="red"></div>
             <div class="" id="spinningDiv">
                 <h3 id="centerText">schwifty</h3>
                 <img src="img/giant_head.png" id="centerImage">
             </div>
-            <div class="game_buttons" id="btnBlu"></div>
-            <div class="game_buttons" id="btnYel"></div>
+            <div class="game_buttons" id="blue"></div>
+            <div class="game_buttons" id="yellow"></div>
     </main>
     
     <!--bottom of the screen, show me what you got!-->
@@ -46,134 +45,7 @@
     <script src="https://code.jquery.com/jquery-2.2.4.min.js"
             integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
             crossorigin="anonymous"></script>
+    <script src="js/simple_simon.js"></script>
 
-    <script>
-    "use strict";
-    var rounds = 0;
-    var score = 0;
-    var gameStarted = false;
-    var userCombo = []; //This array stores the user combo
-    var schwiftyCombo = []; //This array stores the random combo
-    var userMatchesSchwifty = true; //If true, game continues
-    var tempo;
-
-    //animate buttons on hover
-    $('.game_buttons').hover(function() {
-        $(this).animate({"opacity": ".5"}, 25);
-    }, function() {
-        $(this).animate({"opacity": "1"}, 25);
-    });
-
-    //Start button
-    $("#startButton").click(function () {
-        if (rounds >= 0) {
-            score = 0;
-            rounds = 1;
-            userCombo = [];
-            schwiftyCombo = [];
-            $("#displayRounds").val(rounds);
-            $("body").addClass("backgroundImage");
-            gameStarted = true;
-            addNewColorToSchwifty();
-            userMatchesSchwifty = true;
-            playSchwiftyCombo();
-        }
-    });
-
-    //What happens when you click the reset button
-    $("#resetButton").click(function () {
-        $("#displayRounds").val("");
-        $("body").removeClass("backgroundImage");
-        score = 0;
-        rounds = 1;
-        userCombo = [];
-        schwiftyCombo = [];
-    });
-
-    //What happens when the game is started and user clicks color button:
-    $("div[id*='btn']").on("click", function() {
-        userCombo.push(this.id.slice(3, 7));
-        $("#btn" + (this.id.slice(3, 7)) + "Sound").get(0).play();
-        userMatchesSchwifty = true;
-        for (var i = 0; i < userCombo.length; i++) {
-            if (schwiftyCombo[i] != userCombo[i]) {
-                userMatchesSchwifty = false;
-                lose();
-                userCombo = [];
-                schwiftyCombo = [];
-                gameStarted = false;
-                break;
-            }
-            else {
-                //If user guesses correctly
-                if (userCombo.length == schwiftyCombo.length) {
-                    if (rounds == 5) {
-                        win();
-                    } else {
-                        // next round
-                        userCombo = [];
-                        addNewColorToSchwifty();
-                        rounds++;
-                        switch(rounds) {
-                            case 1:
-                            case 2:
-                            case 3:
-                            case 4:
-                                tempo = 1000;
-                                break;
-                            case 5:
-                                tempo = 700;
-                                break;
-                            case 9:
-                                tempo = 500;
-                                break;
-                            case 13:
-                                tempo = 300;
-                                break;
-                        }
-                        playSchwiftyCombo();
-                    }
-                }
-            }
-        }
-    });
-    //Random number generator, adds color to getschwifty array
-    function addNewColorToSchwifty() {
-        var temp = Math.floor((Math.random() * 4) + 1);
-        switch(temp) {
-            case 1:
-                schwiftyCombo.push("Gre");
-                break;
-            case 2:
-                schwiftyCombo.push("Red");
-                break;
-            case 3:
-                schwiftyCombo.push("Yel");
-                break;
-            case 4:
-                schwiftyCombo.push("Blu");
-                break;
-        }
-        console.log(schwiftyCombo);
-    }
-
-    function playSchwiftyCombo() {
-        $("#displayRounds").val(rounds);
-        var i = 0;
-        var intervalID = setInterval(function () {
-            $("#btn" + schwiftyCombo[i]).animate({"opacity": ".5"}, 250).animate({"opacity": "1"}, 1000);
-            $("#btn" + schwiftyCombo[i] + "Sound").get(0).play();
-            i++;
-            if (i == schwiftyCombo.length) {clearInterval(intervalID);}}, 1000);
-    }
-    function win() {
-        $("#centerText").text("WINNER!");
-    }
-    function lose(){
-        $("#centerText").text("!!!LOSER!!!");
-        $("#displayRounds").val("!!!");
-    }
-
-    </script>
 </body>
 </html>
